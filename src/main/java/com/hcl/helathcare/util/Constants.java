@@ -22,4 +22,5 @@ public class Constants {
 	public static final String REQUESTED_BOOK = "successfully requested, Happy reading!!";
 	public static final Integer CREATED = 201;
 	public static final Integer OK = 200;
+	public static final String POLICY_NOT_FOUND="No Policy Found For this User";
 }

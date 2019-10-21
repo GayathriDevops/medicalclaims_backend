@@ -18,6 +18,7 @@ import com.hcl.helathcare.exception.UserNotExistsException;
 import com.hcl.helathcare.service.ClaimService;
 /**
  * 
+ * Claim controller used to create new claim if the user and policy and claim amount valid
  * @author Pradeep AJ
  *
  */
@@ -32,8 +33,8 @@ public class ClaimController {
 	/**
 	 * 
 	 * @param ClaimReqDto -NotNull, multipartfile
-	 * @return-ResponseDto-status
-	 * @exception
+	 * @return-ResponseDto-message,statusCode
+	 * @exception-UserNotExistsException,InvalidClaimAmountException, PolicyNotExistsException
 	 */
 	@PostMapping("/claims")
 	public ResponseEntity<ResponseDto> createNewClaim(@RequestBody ClaimReqDto request) throws UserNotExistsException ,

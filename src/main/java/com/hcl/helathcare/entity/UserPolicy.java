@@ -1,5 +1,7 @@
 package com.hcl.helathcare.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,8 @@ public class UserPolicy {
 	private Long userId;
 	private Long policyId;
 	private Double claimOutstatnindBalance;
+	private LocalDate policyStartDate;
+	private LocalDate policyEndtDate;
 	
 
 }

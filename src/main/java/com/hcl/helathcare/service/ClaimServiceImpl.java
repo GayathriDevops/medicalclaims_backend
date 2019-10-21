@@ -21,7 +21,8 @@ import com.hcl.helathcare.repository.UserPolicyRepository;
 import com.hcl.helathcare.repository.UserRepository;
 import com.hcl.helathcare.util.Constants;
 /**
- * 
+ * override all abstracts methods from ClaimService
+ * createNewClaim- it will validate user,policy, oustatnding policy amount if is valid it will creae else thrwing exception
  * @author Pradeep AJ
  *
  */
@@ -39,6 +40,12 @@ public class ClaimServiceImpl implements ClaimService {
 	@Autowired
 	private UserPolicyRepository userPolicyRepository;
 
+	/**
+	 * Method will validate user, policy, claim amount it is valid it will create new claim else throw exception
+	 * @param-ClaimReqDto
+	 * @return-ResponseDto
+	 * @exception-UserNotExistsException, InvalidClaimAmountException, PolicyNotExistsException
+	 */
 	@Override
 	public ResponseDto createNewClaim(ClaimReqDto request)
 			throws UserNotExistsException, InvalidClaimAmountException, PolicyNotExistsException {
@@ -52,10 +59,6 @@ public class ClaimServiceImpl implements ClaimService {
 					BeanUtils.copyProperties(request, claim);
 					claim.setClaimStatus(Constants.CLAIM_STATUS);
 					claimRepository.save(claim);
-					UserPolicy userPol=new UserPolicy();
-					BeanUtils.copyProperties(userPolicyEXistts.get(), userPol);
-					userPol.setClaimOutstatnindBalance(userPolicyEXistts.get().getClaimOutstatnindBalance()-request.getClaimAmount());
-					userPolicyRepository.save(userPol);
 					return ResponseDto.builder().message(Constants.CLAIM_SUCCESS_MESSAGE).statusCode(Constants.CREATED).build();
 					
 				}else {

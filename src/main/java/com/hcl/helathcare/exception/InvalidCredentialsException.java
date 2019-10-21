@@ -6,7 +6,7 @@ package com.hcl.helathcare.exception;
  *
  */
 
-public class InvalidCredentialsException extends RuntimeException {
+public class InvalidCredentialsException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 

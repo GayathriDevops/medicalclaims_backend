@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hcl.helathcare.dto.LoginReqDto;
 import com.hcl.helathcare.dto.LoginResDto;
@@ -24,6 +25,8 @@ import com.hcl.helathcare.util.Constants;
  *
  *@author Pradeep AJ
  */
+
+@Service
 public class LoginServiceImpl implements LoginService {
 	private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 	@Autowired
@@ -38,14 +41,14 @@ public class LoginServiceImpl implements LoginService {
 	 */
 
 	@Override
-	public LoginResDto login(@Valid LoginReqDto loginReqDto) {
+	public LoginResDto login(@Valid LoginReqDto loginReqDto) throws InvalidCredentialsException {
 		Optional<User> userExists = userRepository.findByEmail(loginReqDto.getEmail());
 		if (userExists.isPresent()) {
 			logger.info("Valid User::----------={}",loginReqDto.getEmail());
 			if (userExists.get().getEmail().equals(loginReqDto.getEmail())
-					&& userExists.get().getPassword().equals( userExists.get().getPassword())) {
+					&& userExists.get().getPassword().equals(loginReqDto.getPassword())) {
 				return LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE)
-						.statusCode(Constants.OK).userId(userExists.get().getUserId()).build();
+						.statusCode(Constants.OK).userId(userExists.get().getUserId()).roleId(userExists.get().getRoleId()).build();
 				
 			}
 			

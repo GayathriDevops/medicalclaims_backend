@@ -8,15 +8,21 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * 
+ * @author Pradeep AJ
+ *
+ */
 @Data
 @Entity
-@Table(name = "policy")
-public class Policy {
+@Table(name = "user_policy")
+public class UserPolicy {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long upId;
+	private Long userId;
 	private Long policyId;
-	private String policyName;
-	private Double policyAmount;
-	private String policyCycle;
+	private Double claimOutstatnindBalance;
+	
 
 }

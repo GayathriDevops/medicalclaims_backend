@@ -51,5 +51,30 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
 
 	}
+	@ExceptionHandler(UserNotExistsException.class)
+	public ResponseEntity<ResponseDto> userNotExistsExceptionHandler(UserNotExistsException ex,
+			WebRequest request) {
+		ResponseDto responseDto = ResponseDto.builder().message(ex.getMessage()).statusCode(HttpStatus.UNAUTHORIZED.value())
+				.build();
+		return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+
+	}
+	@ExceptionHandler(PolicyNotExistsException.class)
+	public ResponseEntity<ResponseDto> policyNotExistsException(PolicyNotExistsException ex,
+			WebRequest request) {
+		ResponseDto responseDto = ResponseDto.builder().message(ex.getMessage()).statusCode(HttpStatus.UNAUTHORIZED.value())
+				.build();
+		return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+
+	}
+	@ExceptionHandler(InvalidClaimAmountException.class)
+	public ResponseEntity<ResponseDto> fileStorageExceptionHandler(InvalidClaimAmountException ex,
+			WebRequest request) {
+		ResponseDto responseDto = ResponseDto.builder().message(ex.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value())
+				.build();
+		return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+
+	}
+	
 	
 }

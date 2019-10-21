@@ -17,4 +17,5 @@ public class LoginResDto {
 	private Long userId;
 	private int statusCode;
 	private String message;
+	private Long roleId;
 }

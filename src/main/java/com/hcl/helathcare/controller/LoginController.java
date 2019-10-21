@@ -1,7 +1,5 @@
 package com.hcl.helathcare.controller;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.helathcare.dto.LoginReqDto;
 import com.hcl.helathcare.dto.LoginResDto;
+import com.hcl.helathcare.exception.InvalidCredentialsException;
 import com.hcl.helathcare.service.LoginService;
 
 /**
@@ -42,7 +41,7 @@ public class LoginController {
 	 */
 	
 	@PostMapping("/login")
-	public ResponseEntity<LoginResDto> login(@Valid @RequestBody LoginReqDto loginReqDto){
+	public ResponseEntity<LoginResDto> login( @RequestBody LoginReqDto loginReqDto)throws InvalidCredentialsException{
 		logger.info("Enter into UserController::---------- login()");
 		return new ResponseEntity<>(loginService.login(loginReqDto),HttpStatus.OK);
 	}

@@ -1,5 +1,6 @@
 package com.hcl.helathcare.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.hcl.helathcare.dto.ClaimDetails;
 import com.hcl.helathcare.dto.ClaimResponse;
 import com.hcl.helathcare.dto.PloicyDetails;
+import com.hcl.helathcare.dto.PolicyData;
+import com.hcl.helathcare.dto.PolicyResponse;
 import com.hcl.helathcare.dto.PolicyResponseDto;
 import com.hcl.helathcare.entity.Claim;
 import com.hcl.helathcare.entity.Policy;
@@ -59,7 +62,7 @@ public class ClaimServiceImpl implements ClaimService {
 	@Override
 
     public ClaimResponse getClaimsByUser(Long userId) {
-		logger.info("Policy::----------={}");
+		logger.info("Claim ::----------={}");
 		
 	List<Claim> claimsList=	claimRepository.findByUserId(userId);
 	
@@ -86,7 +89,31 @@ public class ClaimServiceImpl implements ClaimService {
            return response;
 
     }
+
 	
+	@Override
+	public PolicyResponse getPolicesByUserId(Long userId) {	
+		logger.info("Policy ::----------={}");
+		PolicyResponse response= new PolicyResponse();	
+	List<Object[]> objects=	 policyRepository.getPolicesByUserId(userId);
+	if(objects.size()>0)
+	{List<PolicyData> polices= new ArrayList<PolicyData>();
+	objects.stream().forEach((obj) -> {
+		PolicyData pd= new PolicyData();
+		pd.setPolicyId(Long.parseLong(obj[0].toString()));
+		pd.setPolicyName(obj[1].toString());
+		pd.setClaimOutstanindBalance(Double.parseDouble(obj[2].toString()));
+		pd.setPolicyStartDate( LocalDate.parse(obj[3].toString()));
+		pd.setPolicyEndDate( LocalDate.parse(obj[4].toString()));
+		polices.add(pd);	 
+	 });
+	 response.setPolices(polices);	
+	}else
+	{
+		throw new  NoPolicyNotFound(Constants.POLICY_NOT_FOUND);
+	}
 	
+		return  response;
+	}	
 
 }

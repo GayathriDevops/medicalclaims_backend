@@ -1,6 +1,5 @@
 package com.hcl.helathcare.controller;
 
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.helathcare.dto.ClaimResponse;
-import com.hcl.helathcare.dto.PolicyResponseDto;
+import com.hcl.helathcare.dto.PolicyResponse;
 import com.hcl.helathcare.service.ClaimService;
 
 @RestController
@@ -39,6 +38,12 @@ public class ClaimController {
 
     }
 
+	@GetMapping("/members/{userId}/policy")
+    public ResponseEntity<PolicyResponse> getPolicyByUser(@PathVariable Long userId){
+		logger.info("Enter into Claim Controller::---------- getPolicyByUser()");
+           return new ResponseEntity<>(claimService.getPolicesByUserId(userId),HttpStatus.OK);
+
+    }
 
 
 }

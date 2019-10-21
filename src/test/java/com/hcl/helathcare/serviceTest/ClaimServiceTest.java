@@ -1,12 +1,9 @@
 package com.hcl.helathcare.serviceTest;
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +16,7 @@ import com.hcl.helathcare.dto.ClaimDetails;
 import com.hcl.helathcare.dto.ClaimResponse;
 import com.hcl.helathcare.entity.Claim;
 import com.hcl.helathcare.repository.ClaimRepository;
+import com.hcl.helathcare.repository.PolicyRepository;
 import com.hcl.helathcare.service.ClaimServiceImpl;
 
 
@@ -27,14 +25,16 @@ import com.hcl.helathcare.service.ClaimServiceImpl;
 public class ClaimServiceTest {
 	
 	@InjectMocks
-	ClaimServiceImpl claimServiceImpl;
+	private ClaimServiceImpl claimServiceImpl;
 	
 	@Mock
-	ClaimRepository claimRepository;
+	private ClaimRepository claimRepository;
+	@Mock
+	private PolicyRepository policyRepository;
 
 	
-	@Test
-	public void createBeneficiaryTest() {
+	 @Test
+	public void getAllClaimServiceTestByUser() {
 		ClaimDetails cl= new ClaimDetails();
 		Claim c= new Claim();
 		List<ClaimDetails> claims= new ArrayList<ClaimDetails>();
@@ -64,16 +64,24 @@ public class ClaimServiceTest {
 		c.setPolicyId(1L);
 		c.setUserId(1L);
 		cList.add(c);
-		
-		
 		ClaimResponse cla= new ClaimResponse(); 
 		cla.setClientDetails(claims);
-		  Mockito.when(claimServiceImpl.getClaimsByUser(1L)).thenReturn(cla);
-		  Mockito.when(claimRepository.findByUserId(1L)).thenReturn(cList);
-		 
-		assertEquals(claimRepository.findByUserId(1L).size(),1);
+		  Mockito.when(claimRepository.findByUserId(Mockito.any())).thenReturn(cList);
+			 assertEquals(cList,claimRepository.findByUserId(1L));	
+		  
 	}
-
+ 
+	 @Test
+	 public void getAllPolicesServiceTestByUser()
+	 {
+		 List<Object[]> objects= new ArrayList<Object[]>();
+		 Object[] obj= {1,"cardio",38766,"2016-04-01","2012-05-01"};
+		 objects.add(obj);
+		 
+		  Mockito.when(policyRepository.getPolicesByUserId(Mockito.any())).thenReturn(objects);
+			 assertEquals(objects,policyRepository.getPolicesByUserId(1L));
+		 
+	 }
 	
 	
 }

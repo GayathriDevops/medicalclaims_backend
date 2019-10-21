@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.helathcare.dto.LoginReqDto;
@@ -25,6 +26,7 @@ import com.hcl.helathcare.service.LoginService;
  *
  */
 @RestController
+@RequestMapping("//users")
 @CrossOrigin(allowedHeaders = { "*", "/" }, origins = { "*", "/" })
 public class LoginController {
 	
@@ -39,7 +41,7 @@ public class LoginController {
 	 * @return LoginResDto
 	 */
 	
-	@PostMapping("/users/login")
+	@PostMapping("/login")
 	public ResponseEntity<LoginResDto> login(@Valid @RequestBody LoginReqDto loginReqDto){
 		logger.info("Enter into UserController::---------- login()");
 		return new ResponseEntity<>(loginService.login(loginReqDto),HttpStatus.OK);

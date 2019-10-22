@@ -29,7 +29,7 @@ import com.hcl.helathcare.repository.PolicyRepository;
 import com.hcl.helathcare.repository.UserPolicyRepository;
 import com.hcl.helathcare.repository.UserRepository;
 import com.hcl.helathcare.util.MailWithOTPService;
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class ClaimServiceImplTest {
 	
 	@Mock

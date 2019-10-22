@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
  * 
 
- * @author 51806858
+ * @author Pradeep AJ
 
  *
 
@@ -77,11 +77,11 @@ public class MailWithOTPService {
 
 
 
-	public void sendEmail(String email, String subject, String body) throws MailException {
+	public void sendEmail(String email, String subject, String body){
 
 
 
-		logger.info("sending mail to " + email);
+		logger.info("sending mail to {}=" ,email);
 
 		SimpleMailMessage mail = new SimpleMailMessage();
 
@@ -95,7 +95,7 @@ public class MailWithOTPService {
 
 		javaMailSender.send(mail);
 
-		logger.info("email sent successfully to " + email);
+		logger.info("email sent successfully to {}=" ,email);
 
 	}
 

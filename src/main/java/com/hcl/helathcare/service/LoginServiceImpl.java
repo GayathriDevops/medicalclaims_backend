@@ -47,6 +47,7 @@ public class LoginServiceImpl implements LoginService {
 			logger.info("Valid User::----------={}",loginReqDto.getEmail());
 			if (userExists.get().getEmail().equals(loginReqDto.getEmail())
 					&& userExists.get().getPassword().equals(loginReqDto.getPassword())) {
+				logger.info("Valid Username and password::----------={}",loginReqDto.getEmail());
 				return LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE)
 						.statusCode(Constants.OK).userId(userExists.get().getUserId()).roleId(userExists.get().getRoleId()).build();
 				

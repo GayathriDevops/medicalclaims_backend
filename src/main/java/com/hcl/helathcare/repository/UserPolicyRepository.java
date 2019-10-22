@@ -9,6 +9,8 @@ import com.hcl.helathcare.entity.UserPolicy;
 @Repository
 public interface UserPolicyRepository extends JpaRepository<UserPolicy, Long> {
 
-	Optional<UserPolicy> findByPolicyId(Long policyId);
+	
+
+	Optional<UserPolicy> findByPolicyIdAndUserId(Long policyId, Long userId);
 
 }

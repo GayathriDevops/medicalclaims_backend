@@ -20,9 +20,13 @@ import com.hcl.helathcare.repository.PolicyRepository;
 import com.hcl.helathcare.repository.UserPolicyRepository;
 import com.hcl.helathcare.repository.UserRepository;
 import com.hcl.helathcare.util.Constants;
+import com.hcl.helathcare.util.MailWithOTPService;
+
 /**
- * override all abstracts methods from ClaimService
- * createNewClaim- it will validate user,policy, oustatnding policy amount if is valid it will creae else thrwing exception
+ * override all abstracts methods from ClaimService createNewClaim- it will
+ * validate user,policy, oustatnding policy amount if is valid it will creae
+ * else thrwing exception
+ * 
  * @author Pradeep AJ
  *
  */
@@ -39,12 +43,17 @@ public class ClaimServiceImpl implements ClaimService {
 	private UserRepository userRepository;
 	@Autowired
 	private UserPolicyRepository userPolicyRepository;
+	@Autowired
+	private MailWithOTPService mailWithOTPService;
 
 	/**
-	 * Method will validate user, policy, claim amount it is valid it will create new claim else throw exception
+	 * Method will validate user, policy, claim amount it is valid it will create
+	 * new claim else throw exception
+	 * 
 	 * @param-ClaimReqDto
 	 * @return-ResponseDto
-	 * @exception-UserNotExistsException, InvalidClaimAmountException, PolicyNotExistsException
+	 * @exception-UserNotExistsException, InvalidClaimAmountException,
+	 *                                    PolicyNotExistsException
 	 */
 	@Override
 	public ResponseDto createNewClaim(ClaimReqDto request)
@@ -53,25 +62,27 @@ public class ClaimServiceImpl implements ClaimService {
 		if (userExists.isPresent()) {
 			Optional<Policy> policyExists = policyRepository.findById(request.getPolicyId());
 			if (policyExists.isPresent()) {
-				Optional<UserPolicy> userPolicyEXistts=userPolicyRepository.findByPolicyId(request.getPolicyId());
-				if(request.getClaimAmount()<=userPolicyEXistts.get().getClaimOutstatnindBalance()) {
+				Optional<UserPolicy> userPolicyEXistts = userPolicyRepository.findByPolicyIdAndUserId(request.getPolicyId(),request.getUserId());
+				if (request.getClaimAmount() <= userPolicyEXistts.get().getClaimOutstatnindBalance()) {
 					Claim claim = new Claim();
 					BeanUtils.copyProperties(request, claim);
 					claim.setClaimStatus(Constants.CLAIM_STATUS);
 					claimRepository.save(claim);
-					return ResponseDto.builder().message(Constants.CLAIM_SUCCESS_MESSAGE).statusCode(Constants.CREATED).build();
-					
-				}else {
+					mailWithOTPService.sendEmail(userExists.get().getEmail(), Constants.CLAIM_MAIL_SUBJECT, Constants.CLAIM_MAIL_BODY+claim.getClaimId());
+					return ResponseDto.builder().message(Constants.CLAIM_SUCCESS_MESSAGE).statusCode(Constants.CREATED)
+							.build();
+
+				} else {
 					throw new InvalidClaimAmountException(Constants.INVALID_CLAIM_AMOUNT);
 				}
-						
-				}else {
+
+			} else {
 				throw new PolicyNotExistsException(Constants.POLICY_NOT_EXISTS);
 			}
 		} else {
 			throw new UserNotExistsException(Constants.USER_NOT_EXISTS);
 		}
-		
+
 	}
 
 }

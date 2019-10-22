@@ -24,5 +24,7 @@ public class Constants {
 	public static final String INVALID_CLAIM_AMOUNT="Claim amount must be less than or equal to policy outstanding amount";
 	public static final Integer OK = 200;
 	public static final String CLAIM_DOC_PATH="./uploads";
+	public static final String CLAIM_MAIL_SUBJECT = "ING Bank Transactions";
+	public static final String CLAIM_MAIL_BODY = "Claim  submitted Successfully. Your Claim id is:";
 	
 }

@@ -63,7 +63,7 @@ public class ClaimServiceImpl implements ClaimService {
 			Optional<Policy> policyExists = policyRepository.findById(request.getPolicyId());
 			if (policyExists.isPresent()) {
 				Optional<UserPolicy> userPolicyEXistts = userPolicyRepository.findByPolicyIdAndUserId(request.getPolicyId(),request.getUserId());
-				if (request.getClaimAmount() <= userPolicyEXistts.get().getClaimOutstatnindBalance()) {
+				if (userPolicyEXistts.isPresent() &&request.getClaimAmount() <= userPolicyEXistts.get().getClaimOutstatnindBalance()) {
 					Claim claim = new Claim();
 					BeanUtils.copyProperties(request, claim);
 					claim.setClaimStatus(Constants.CLAIM_STATUS);

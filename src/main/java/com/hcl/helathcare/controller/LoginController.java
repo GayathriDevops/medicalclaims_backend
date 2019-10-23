@@ -20,29 +20,32 @@ import com.hcl.helathcare.service.LoginService;
  * 
  *
  *
- *login()-check user exits and validate with data is true return userId
- * @author Pradeep AJ
+ * login check user exits and validate with data is true return userId
+ * 
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 @RestController
 @RequestMapping("//users")
 @CrossOrigin(allowedHeaders = { "*", "/" }, origins = { "*", "/" })
 public class LoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	@Autowired
 	private LoginService loginService;
-	
 
 	/**
 	 * 
 	 * @param loginReqDto
-	 * @return LoginResDto
+	 * @return LoginResDto http status code 
+	 * @throws InvalidCredentialsException
 	 */
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<LoginResDto> login( @RequestBody LoginReqDto loginReqDto)throws InvalidCredentialsException{
+	public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto loginReqDto) throws InvalidCredentialsException {
 		logger.info("Enter into UserController::---------- login()");
-		return new ResponseEntity<>(loginService.login(loginReqDto),HttpStatus.OK);
+		return new ResponseEntity<>(loginService.login(loginReqDto), HttpStatus.OK);
 	}
 }

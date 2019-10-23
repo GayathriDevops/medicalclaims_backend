@@ -1,8 +1,11 @@
 package com.hcl.helathcare.exception;
 
 /**
+ * InvalidCredentialsException if user enter invalid details
  * 
  * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 

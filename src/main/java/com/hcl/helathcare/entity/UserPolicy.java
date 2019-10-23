@@ -12,7 +12,9 @@ import lombok.Data;
 
 /**
  * 
- * @author Pradeep AJ
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 @Data
@@ -27,6 +29,5 @@ public class UserPolicy {
 	private Double claimOutstatnindBalance;
 	private LocalDate policyStartDate;
 	private LocalDate policyEndtDate;
-	
 
 }

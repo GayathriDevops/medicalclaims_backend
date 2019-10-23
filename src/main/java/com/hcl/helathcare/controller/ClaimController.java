@@ -16,33 +16,39 @@ import com.hcl.helathcare.exception.InvalidClaimAmountException;
 import com.hcl.helathcare.exception.PolicyNotExistsException;
 import com.hcl.helathcare.exception.UserNotExistsException;
 import com.hcl.helathcare.service.ClaimService;
+
 /**
  * 
- * Claim controller used to create new claim if the user and policy and claim amount valid
- * @author Pradeep AJ
+ * Claim controller used to create new claim if the user and policy and claim
+ * amount valid
+ * 
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 @RestController
 @CrossOrigin(allowedHeaders = { "*", "/" }, origins = { "*", "/" })
 public class ClaimController {
 	private static final Logger logger = LoggerFactory.getLogger(ClaimController.class);
-	
+
 	@Autowired
 	private ClaimService claimService;
-	
+
 	/**
 	 * 
-	 * @param ClaimReqDto -NotNull, multipartfile
-	 * @return-ResponseDto-message,statusCode
-	 * @exception-UserNotExistsException,InvalidClaimAmountException, PolicyNotExistsException
+	 * @param ClaimReqDto
+	 * @return ResponseDto http status code
+	 * @throws UserNotExistsException
+	 * @throws InvalidClaimAmountException
+	 * @throws PolicyNotExistsException
 	 */
 	@PostMapping("/claims")
-	public ResponseEntity<ResponseDto> createNewClaim(@RequestBody ClaimReqDto request) throws UserNotExistsException ,
-	InvalidClaimAmountException, PolicyNotExistsException{
+	public ResponseEntity<ResponseDto> createNewClaim(@RequestBody ClaimReqDto request)
+			throws UserNotExistsException, InvalidClaimAmountException, PolicyNotExistsException {
 		logger.info("::Enter into------------: createNewClaim()");
-		return new ResponseEntity<>(claimService.createNewClaim(request),HttpStatus.CREATED);
-		
+		return new ResponseEntity<>(claimService.createNewClaim(request), HttpStatus.CREATED);
+
 	}
-	
 
 }

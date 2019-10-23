@@ -18,34 +18,46 @@ import com.hcl.helathcare.exception.InvalidCredentialsException;
 import com.hcl.helathcare.service.LoginService;
 import com.hcl.helathcare.util.Constants;
 
+/**
+ * implemented login tesst case for logincontroller test case
+ * 
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
+ *
+ */
 @RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class LoginControllerTest {
 
 	@Mock
-	 LoginService loginService;
+	LoginService loginService;
 	@InjectMocks
-	 LoginController loginController;
-	
-	 LoginReqDto loginReq;
- LoginResDto loginRes; 
+	LoginController loginController;
+
+	LoginReqDto loginReq;
+	LoginResDto loginRes;
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		
-		
+
 		loginReq = LoginReqDto.builder().email("Pradeep.aj28@gmail.com").password("Pradeep").build();
-		loginRes = LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE).statusCode(Constants.OK).userId(1L).roleId(1L)
-				.build();
-		
-		
+		loginRes = LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE).statusCode(Constants.OK).userId(1L)
+				.roleId(1L).build();
+
 	}
+
+	/**
+	 * @param Nothing
+	 * @return Nothing
+	 * @throws InvalidCredentialsException
+	 */
 	@Test
 	public void loginTest() throws InvalidCredentialsException {
 		Mockito.when(loginService.login(loginReq)).thenReturn(loginRes);
-		ResponseEntity<LoginResDto> actRes=loginController.login(loginReq);
+		ResponseEntity<LoginResDto> actRes = loginController.login(loginReq);
 		assertEquals(HttpStatus.OK, actRes.getStatusCode());
-		
+
 	}
 
 }
-

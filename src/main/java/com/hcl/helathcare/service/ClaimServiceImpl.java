@@ -2,6 +2,8 @@ package com.hcl.helathcare.service;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,11 @@ import com.hcl.helathcare.util.MailWithOTPService;
 /**
  * override all abstracts methods from ClaimService createNewClaim- it will
  * validate user,policy, oustatnding policy amount if is valid it will creae
- * else thrwing exception
+ * else thrwing exception if valid claim will send claim id and status through mail
  * 
- * @author Pradeep AJ
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 
@@ -46,29 +50,41 @@ public class ClaimServiceImpl implements ClaimService {
 	@Autowired
 	private MailWithOTPService mailWithOTPService;
 
+	private static final Logger logger = LoggerFactory.getLogger(ClaimServiceImpl.class);
+
 	/**
-	 * Method will validate user, policy, claim amount it is valid it will create
-	 * new claim else throw exception
+	 * * Method will validate user, policy, claim amount it is valid it will create
+	 * new claim else throw exception and sending claim status and Claim number
+	 * through Mail
 	 * 
-	 * @param-ClaimReqDto
-	 * @return-ResponseDto
-	 * @exception-UserNotExistsException, InvalidClaimAmountException,
-	 *                                    PolicyNotExistsException
+	 * 
+	 * @param request NotNull
+	 * @return ResponseDto
+	 * @throws UserNotExistsException
+	 * @throws InvalidClaimAmountException
+	 * @throws PolicyNotExistsException
 	 */
 	@Override
 	public ResponseDto createNewClaim(ClaimReqDto request)
 			throws UserNotExistsException, InvalidClaimAmountException, PolicyNotExistsException {
 		Optional<User> userExists = userRepository.findById(request.getUserId());
 		if (userExists.isPresent()) {
+			logger.info(":: Valid User-----:{}=", request.getUserId());
 			Optional<Policy> policyExists = policyRepository.findById(request.getPolicyId());
 			if (policyExists.isPresent()) {
-				Optional<UserPolicy> userPolicyEXistts = userPolicyRepository.findByPolicyIdAndUserId(request.getPolicyId(),request.getUserId());
-				if (userPolicyEXistts.isPresent() && request.getClaimAmount() <= userPolicyEXistts.get().getClaimOutstatnindBalance()) {
+				logger.info(":: Valid Policy--------:{}=", request.getUserId());
+				Optional<UserPolicy> userPolicyEXistts = userPolicyRepository
+						.findByPolicyIdAndUserId(request.getPolicyId(), request.getUserId());
+				if (userPolicyEXistts.isPresent()
+
+						&& request.getClaimAmount() <= userPolicyEXistts.get().getClaimOutstatnindBalance()) {
+					logger.info("::Valid User Policy and Claim Amount-----:{}=", request.getClaimAmount());
 					Claim claim = new Claim();
 					BeanUtils.copyProperties(request, claim);
 					claim.setClaimStatus(Constants.CLAIM_STATUS);
 					claimRepository.save(claim);
-					mailWithOTPService.sendEmail(userExists.get().getEmail(), Constants.CLAIM_MAIL_SUBJECT, Constants.CLAIM_MAIL_BODY+claim.getClaimId());
+					mailWithOTPService.sendEmail(userExists.get().getEmail(), Constants.CLAIM_MAIL_SUBJECT,
+							Constants.CLAIM_MAIL_BODY + claim.getClaimId());
 					return ResponseDto.builder().message(Constants.CLAIM_SUCCESS_MESSAGE).statusCode(Constants.CREATED)
 							.build();
 

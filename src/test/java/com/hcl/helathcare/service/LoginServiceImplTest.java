@@ -19,6 +19,15 @@ import com.hcl.helathcare.exception.InvalidCredentialsException;
 import com.hcl.helathcare.repository.UserRepository;
 import com.hcl.helathcare.util.Constants;
 
+/**
+ * implemented login service implementation test case
+ * 
+ * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
+ *
+ */
+
 @RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class LoginServiceImplTest {
 
@@ -27,30 +36,46 @@ public class LoginServiceImplTest {
 
 	@InjectMocks
 	private LoginServiceImpl loginServiceImpl;
-	
-	 public LoginReqDto loginReq;
-	 public LoginResDto loginRes; 
-	 public User user;
-	
+
+	public LoginReqDto loginReq;
+	public LoginResDto loginRes;
+	public User user;
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-	 user=new User();
+		user = new User();
 		user.setUserId(1L);
 		user.setEmail("Pradeep.aj28@gmail.com");
 		user.setPassword("Pradeep");
 		loginReq = LoginReqDto.builder().email("Pradeep.aj28@gmail.com").password("Pradeep").build();
-		loginRes = LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE).statusCode(Constants.OK).userId(1L).roleId(1L)
-				.build();
-		
-		
+		loginRes = LoginResDto.builder().message(Constants.LOG_SUCCESS_MESSAGE).statusCode(Constants.OK).userId(1L)
+				.roleId(1L).build();
+
 	}
 
+	/**
+	 * @param Nothing
+	 * @return Nothing
+	 * @throws InvalidCredentialsException
+	 */
 	@Test
 	public void loginTest() throws InvalidCredentialsException {
 		Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(user));
 		LoginResDto actualValue = loginServiceImpl.login(loginReq);
 		assertEquals(loginRes.getStatusCode(), actualValue.getStatusCode());
+	}
+
+	/**
+	 * negative test cases
+	 * 
+	 * @param Nothing
+	 * @return Nothing
+	 * @throws InvalidCredentialsException
+	 */
+	@Test(expected = InvalidCredentialsException.class)
+	public void InvalidCredentialsExceptionTest() throws InvalidCredentialsException {
+		loginServiceImpl.login(loginReq);
 	}
 
 }

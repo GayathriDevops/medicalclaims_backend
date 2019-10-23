@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hcl.helathcare.entity.User;
+import com.hcl.helathcare.entity.UserPolicy;
 
 /**
  * extends jpaRepository
@@ -15,10 +15,9 @@ import com.hcl.helathcare.entity.User;
  * @since 2019-10-22
  *
  */
+@Repository
+public interface UserPolicyRepository extends JpaRepository<UserPolicy, Long> {
 
-@Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, Long> {
-
-	Optional<User> findByEmail(String email);
+	Optional<UserPolicy> findByPolicyIdAndUserId(Long policyId, Long userId);
 
 }

@@ -8,10 +8,11 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-
 /**
  * 
  * @author Pradeepa AJ
+ * @version 1.0
+ * @since 2019-10-22
  *
  */
 @Data

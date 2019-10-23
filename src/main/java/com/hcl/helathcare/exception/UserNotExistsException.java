@@ -1,19 +1,18 @@
 package com.hcl.helathcare.exception;
 
 /**
- * InvalidCredentialsException if user enter invalid details
+ * UserNotExistsException if invalid user
  * 
  * @author Pradeepa AJ
  * @version 1.0
  * @since 2019-10-22
  *
  */
-
-public class InvalidCredentialsException extends Exception {
+public class UserNotExistsException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public InvalidCredentialsException(String message) {
+	public UserNotExistsException(String message) {
 		super(message);
 	}
 }

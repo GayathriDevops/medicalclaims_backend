@@ -1,19 +1,17 @@
 package com.hcl.helathcare.exception;
 
 /**
- * InvalidCredentialsException if user enter invalid details
+ * InvalidClaimAmountException if invalid policy
  * 
  * @author Pradeepa AJ
  * @version 1.0
  * @since 2019-10-22
  *
  */
-
-public class InvalidCredentialsException extends Exception {
-
+public class PolicyNotExistsException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public InvalidCredentialsException(String message) {
+	public PolicyNotExistsException(String message) {
 		super(message);
 	}
 }

@@ -1,5 +1,7 @@
 package com.hcl.helathcare.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,13 +19,15 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "policy")
-public class Policy {
+@Table(name = "user_policy")
+public class UserPolicy {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long upId;
+	private Long userId;
 	private Long policyId;
-	private String policyName;
-	private Double policyAmount;
-	private String policyCycle;
+	private Double claimOutstatnindBalance;
+	private LocalDate policyStartDate;
+	private LocalDate policyEndtDate;
 
 }
